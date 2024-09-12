@@ -80,7 +80,8 @@ def main():
     print(f"::notice title=build_url::{build_url}")
 
     def signal_handler(sig, frame):
-        build.cancel()
+        print('Stopping build')
+        build.stop()
         sys.exit(0)
 
     signal.signal(signal.SIGINT, signal_handler)
