@@ -36,6 +36,10 @@ inputs:
     description: "How frequently in seconds to query Jenkins for build status"
     required: false
     default: "5"
+  cancel_jenkins_run_on_gh_cancel:
+    description: "When the Github Action run gets cancelled, also stop the jenkins build"
+    required: false
+    default: "True"
 outputs:
   build_url:
     description: "Jenkins build URL"
