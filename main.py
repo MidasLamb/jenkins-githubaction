@@ -3,6 +3,8 @@ from api4jenkins import Jenkins
 import logging
 import json
 from time import time, sleep
+import signal
+import sys
 
 log_level = os.environ.get('INPUT_LOG_LEVEL', 'INFO')
 logging.basicConfig(format='JENKINS_ACTION: %(message)s', level=log_level)
@@ -76,6 +78,13 @@ def main():
     with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
       print(f'build_url={build_url}', file=fh)
     print(f"::notice title=build_url::{build_url}")
+
+    def signal_handler(sig, frame):
+        build.cancel()
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, signal_handler)
+    
 
     if not wait:
         logging.info("Not waiting for build to finish.")
